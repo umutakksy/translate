@@ -6,6 +6,7 @@ const Groq = require('groq-sdk');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const fs = require('fs');
+const path = require('path');
 const AdmZip = require('adm-zip');
 
 dotenv.config();
@@ -46,6 +47,10 @@ function cleanText(text) {
     };
     return text.split('').map(char => charMap[char] || (char.charCodeAt(0) > 127 ? '?' : char)).join('');
 }
+
+// Serve static files from the React frontend app
+const frontendPath = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendPath));
 
 app.post('/api/translate', upload.single('file'), async (req, res) => {
     const jobId = req.body.jobId || Date.now().toString();
@@ -294,6 +299,12 @@ async function handlePdfTranslation(req, res, jobId, targetLanguage) {
 app.get('/api/status/:jobId', (req, res) => {
     const status = jobs[req.params.jobId] || { status: 'unknown', message: 'Job not found' };
     res.json(status);
+});
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;

@@ -51,7 +51,7 @@ function App() {
     formData.append('targetLanguage', targetLanguage);
     formData.append('jobId', jobId);
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const API_URL = import.meta.env.VITE_API_URL || window.location.origin;
 
     // Initial status check to start the loop
     const statusInterval = setInterval(async () => {
