@@ -83,8 +83,15 @@ function App() {
           setError(reader.result as string);
         };
         reader.readAsText(err.response.data);
+      } else if (err.response) {
+        // The server responded with a status code that falls out of the range of 2xx
+        setError(err.response.data || 'Server error. Please check backend logs.');
+      } else if (err.request) {
+        // The request was made but no response was received
+        setError('Cannot connect to the server. If you are on Netlify, did you deploy your backend? If local, is the backend running?');
       } else {
-        setError(err.response?.data || 'An error occurred during translation. Please check your API key.');
+        // Something happened in setting up the request that triggered an Error
+        setError(err.message || 'An unexpected error occurred.');
       }
     } finally {
       setIsTranslating(false);
