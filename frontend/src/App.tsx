@@ -51,10 +51,12 @@ function App() {
     formData.append('targetLanguage', targetLanguage);
     formData.append('jobId', jobId);
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
     // Initial status check to start the loop
     const statusInterval = setInterval(async () => {
       try {
-        const statusRes = await axios.get(`http://localhost:5000/api/status/${jobId}`);
+        const statusRes = await axios.get(`${API_URL}/api/status/${jobId}`);
         setStatusMessage(statusRes.data.message);
         setStatus(statusRes.data.status);
         if (statusRes.data.status === 'completed' || statusRes.data.status === 'error') {
@@ -66,7 +68,7 @@ function App() {
     }, 800);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/translate', formData, {
+      const response = await axios.post(`${API_URL}/api/translate`, formData, {
         responseType: 'blob',
       });
 
