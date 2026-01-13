@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI Document Translator
 
 A premium PDF translation application using React and Groq API.
@@ -23,3 +24,6 @@ A premium PDF translation application using React and Groq API.
 ## Technologies
 - **Frontend**: Vite, React, TypeScript, Framer Motion, Lucide React, Axios.
 - **Backend**: Node.js, Express, Multer, Groq SDK, PDF-Lib, PDF-Parse.
+=======
+# translate
+>>>>>>> c193951daf9560fc5bc5459b1fa3282f3b3885a3
